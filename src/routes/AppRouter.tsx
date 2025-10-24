@@ -5,6 +5,7 @@ import MainLayout from '@/layouts/MainLayout'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
+const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
 const BookingPage = lazy(() => import('@/pages/BookingPage'))
 const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         Component: LoginPage,
+      },
+      {
+        path: 'register',
+        Component: RegisterPage,
       },
     ],
   },
