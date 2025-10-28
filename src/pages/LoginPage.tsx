@@ -4,14 +4,28 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('test1@gmail.com')
+  const [password, setPassword] = useState('123456')
+  const [errorMsg, setErrorMsg] = useState('')
+  const navigate = useNavigate()
+
+  const handleChange = (setFunc: React.Dispatch<React.SetStateAction<string>>, value: string) => {
+    setFunc(value)
+    setErrorMsg('')
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await AuthAPI.login(email, password);
-    navigate("/")
+
+    await AuthAPI.login(email, password).then(() => {
+      navigate('/')
+    }).catch((err) => {
+      if (err.status === 401) {
+        setErrorMsg("Invalid credentionals")
+      } else {
+        setErrorMsg("Something went wrong")
+      }
+    })
   }
 
   return (
@@ -28,7 +42,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleChange(setEmail, e.target.value)}
               required
             />
           </div>
@@ -41,7 +55,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handleChange(setPassword, e.target.value)}
               required
             />
           </div>
@@ -52,6 +66,7 @@ export default function LoginPage() {
           >
             Login
           </button>
+          <p className="text-primary text-center">{errorMsg}</p>
         </form>
 
         <p className="text-center text-sm text-textSecondary mt-6">

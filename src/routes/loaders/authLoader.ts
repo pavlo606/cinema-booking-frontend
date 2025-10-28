@@ -13,6 +13,18 @@ export const authRequireLoader = async () => {
   }
 }
 
+export const getUserLoader = async () => {
+    try {
+        await AuthAPI.refresh()
+
+        const user = await AuthAPI.me();
+
+        return { user };
+    } catch {
+        return { user: undefined };
+    }
+}
+
 export const redirectIfAuth = async () => {
   try {
     await AuthAPI.refresh()
@@ -30,7 +42,7 @@ export const AdminRequireLoader = async () => {
 
     const user = await AuthAPI.me()
 
-    if (user?.role !== "Admin") return redirect('/auth/login')
+    if (user?.role !== "Admin") return redirect('/')
 
     return { user }
   } catch {

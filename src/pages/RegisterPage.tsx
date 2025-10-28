@@ -8,14 +8,36 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate()
+
+  const handleChange = (setFunc: React.Dispatch<React.SetStateAction<string>>, value: string) => {
+    setFunc(value);
+    setErrorMsg("");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === repeatPassword) {
-      await AuthAPI.register(email, username, password)
-      navigate("/")
+
+    if (password !== repeatPassword) {
+      setErrorMsg("Passwords didn't match")
+      return
     }
+
+    if (password.length < 6) {
+      setErrorMsg("Password need to have at least 6 characters")
+      return
+    }
+
+    AuthAPI.register(email, username, password).then(() => {
+      navigate('/')
+    }).catch((err) => {
+      if (err.status === 409) {
+        setErrorMsg("Email is already in use")
+      } else {
+        setErrorMsg("Something went wrong")
+      }
+    })
   }
 
   return (
@@ -28,7 +50,7 @@ export default function RegisterPage() {
             <label htmlFor="email" className="block text-sm font-medium text-textSecondary mb-1">
               Email
             </label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input type="email" value={email} onChange={(e) => handleChange(setEmail, e.target.value)} required />
           </div>
 
           <div>
@@ -38,7 +60,7 @@ export default function RegisterPage() {
             <Input
               type="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => handleChange(setUsername, e.target.value)}
               required
             />
           </div>
@@ -50,7 +72,7 @@ export default function RegisterPage() {
             <Input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handleChange(setPassword, e.target.value)}
               required
             />
           </div>
@@ -65,7 +87,7 @@ export default function RegisterPage() {
             <Input
               type="password"
               value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={(e) => handleChange(setRepeatPassword, e.target.value)}
               required
             />
           </div>
@@ -76,6 +98,7 @@ export default function RegisterPage() {
           >
             Register
           </button>
+          <p className="text-primary text-center">{errorMsg}</p>
         </form>
 
         <p className="text-center text-sm text-textSecondary mt-6">

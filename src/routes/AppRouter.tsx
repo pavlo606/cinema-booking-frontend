@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router'
 import { lazy } from 'react'
-import { AdminRequireLoader, authRequireLoader, redirectIfAuth } from './loaders/authLoader'
+import { AdminRequireLoader, authRequireLoader, getUserLoader, redirectIfAuth } from './loaders/authLoader'
 import MainLayout from '@/layouts/MainLayout'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
@@ -14,6 +14,7 @@ export const router = createBrowserRouter([
   {
     path: '',
     element: <MainLayout />,
+    loader: getUserLoader,
     children: [
       { index: true, Component: HomePage },
       {
