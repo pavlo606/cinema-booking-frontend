@@ -18,13 +18,13 @@ const MainLayout = () => {
     }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
       <Header />
-      <main className="p-4">
+      <main className="p-4 grow">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 

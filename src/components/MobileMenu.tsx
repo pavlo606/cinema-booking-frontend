@@ -23,7 +23,7 @@ const MobileMenu = ({
             <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center text-white">
               <img src={logo} className='p-1' alt="" />
             </div>
-            <span className="text-text-primary font-semibold">CinemaBooking</span>
+            <span className="text-text-primary font-semibold">CinemaBook</span>
           </Link>
           <button onClick={onClose} className="p-2 rounded-md hover:bg-surface">
             <X className="w-5 h-5 text-text-primary" />

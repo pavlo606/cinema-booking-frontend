@@ -29,7 +29,7 @@ export default function Header(_: HeaderProps) {
                   <img src={logo} className='p-1' alt="" />
                 </div>
                 <span className="text-lg font-semibold text-text-primary">
-                  CinemaBooking
+                  CinemaBook
                 </span>
               </Link>
 
