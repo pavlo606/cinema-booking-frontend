@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 import { lazy } from 'react'
 import { AdminRequireLoader, authRequireLoader, getUserLoader, redirectIfAuth } from './loaders/authLoader'
 import MainLayout from '@/layouts/MainLayout'
+import FilmDetails from '@/pages/FilmDetails'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -18,10 +19,14 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: HomePage },
       {
+        path: '/film/:id',
+        Component: FilmDetails,
+      },
+      {
         loader: authRequireLoader,
         children: [
           {
-            path: '/booking',
+            path: '/booking/:id',
             Component: BookingPage,
           },
         ],

@@ -4,6 +4,7 @@ import Footer from './Footer'
 import { useAuth } from '@/context/AuthContext'
 import type { User } from '@/types/user'
 import { useEffect } from 'react'
+import ScrollToTop from '@/utils/ScrollToTop'
 
 const MainLayout = () => {
   const loaderData = useLoaderData() as { user: User };
@@ -19,6 +20,7 @@ const MainLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
+      <ScrollToTop />
       <Header />
       <main className="p-4 grow">
         <Outlet />
