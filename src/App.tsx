@@ -6,7 +6,7 @@ import { AuthProvider } from './context/AuthContext'
 
 function App() {
   return (
-    <div>
+    <div className='bg-bg-dark'>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>

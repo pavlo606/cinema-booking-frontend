@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Input from '@/components/Input'
+import Input from '@/components/ui/Input'
 import { Link, useNavigate } from 'react-router'
 import { AuthAPI } from '@/api/auth.api'
 

@@ -1,5 +1,5 @@
 import { AuthAPI } from '@/api/auth.api'
-import Input from '@/components/Input'
+import Input from '@/components/ui/Input'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 

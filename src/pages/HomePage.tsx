@@ -1,16 +1,22 @@
-import { FilmsAPI } from "@/api/films.api"
-import { useEffect } from "react"
+import { useEffect, useState } from 'react'
+import { FilmsAPI } from '@/api/films.api'
+import { FilmGrid } from '@/components/home/FilmGrid'
+import type { Film } from '@/dto/film.dto'
 
 const HomePage = () => {
-    useEffect(() => {
-        FilmsAPI.get().then(console.log)
-    })
+  const [films, setFilms] = useState<Film[]>()
 
-    return (
-        <div className="text-text-primary">
-            HomePage
-        </div>
-    )
+  useEffect(() => {
+    FilmsAPI.get().then((res) => {
+      setFilms(res)
+    })
+  }, [])
+
+  return (
+    <div className="text-text-primary">
+      {films && <FilmGrid films={films} />}
+    </div>
+  )
 }
 
 export default HomePage

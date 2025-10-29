@@ -1,3 +1,4 @@
+import { FilmsAPI } from "@/api/films.api";
 import { SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
@@ -5,22 +6,23 @@ import { Link } from "react-router";
 const SearchBar = () => {
   const [q, setQ] = useState('')
   const [open, setOpen] = useState(false)
-  const [results, setResults] = useState<Array<{ id: string; title: string }>>([])
+  const [results, setResults] = useState<Array<{ id: string; name: string }>>([])
 
   useEffect(() => {
     if (!q) {
       setResults([])
       return
     }
-    const id = setTimeout(() => {
+    const id = setTimeout(async () => {
+      setResults(await FilmsAPI.search(q))
       // Тут має бути запит до бекенду (typeahead)
       // Поки — мок
-      const mock = [
-        { id: '1', title: 'Dune: Part Two' },
-        { id: '2', title: 'Oppenheimer' },
-        { id: '3', title: 'The Batman' },
-      ].filter((m) => m.title.toLowerCase().includes(q.toLowerCase()))
-      setResults(mock)
+      // const mock = [
+      //   { id: '1', title: 'Dune: Part Two' },
+      //   { id: '2', title: 'Oppenheimer' },
+      //   { id: '3', title: 'The Batman' },
+      // ].filter((m) => m.title.toLowerCase().includes(q.toLowerCase()))
+      // setResults(mock)
     }, 250)
     return () => clearTimeout(id)
   }, [q])
@@ -53,7 +55,7 @@ const SearchBar = () => {
                 to={`/movies/${r.id}`}
                 className="block px-4 py-3 text-sm text-text-primary hover:bg-bg-dark/40"
               >
-                {r.title}
+                {r.name}
               </Link>
             </li>
           ))}
