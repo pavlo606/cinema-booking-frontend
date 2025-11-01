@@ -1,7 +1,7 @@
 import { AuthAPI } from '@/api/auth.api'
-import { redirect } from 'react-router'
+import { redirect, type LoaderFunctionArgs } from 'react-router'
 
-export const authRequireLoader = async () => {
+export const authRequireLoader = async ({ request }: LoaderFunctionArgs) => {
   try {
     await AuthAPI.refresh()
 
@@ -9,7 +9,8 @@ export const authRequireLoader = async () => {
     console.log(user)
     return { user }
   } catch {
-    return redirect('/auth/login')
+    const url = new URL(request.url);
+    return redirect(`/auth/login?redirect=${url.pathname}`)
   }
 }
 
@@ -30,7 +31,7 @@ export const redirectIfAuth = async () => {
     await AuthAPI.refresh()
     await AuthAPI.me()
 
-    return redirect('/booking')
+    return redirect('/')
   } catch {
     return null
   }
@@ -46,6 +47,6 @@ export const AdminRequireLoader = async () => {
 
     return { user }
   } catch {
-    return redirect('/auth/login')
+    return redirect('/403')
   }
 }

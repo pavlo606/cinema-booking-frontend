@@ -1,9 +1,10 @@
 import { AuthAPI } from '@/api/auth.api'
 import Input from '@/components/ui/Input'
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 
 export default function LoginPage() {
+  const [params] = useSearchParams();
   const [email, setEmail] = useState('test1@gmail.com')
   const [password, setPassword] = useState('123456')
   const [errorMsg, setErrorMsg] = useState('')
@@ -18,7 +19,9 @@ export default function LoginPage() {
     e.preventDefault()
 
     await AuthAPI.login(email, password).then(() => {
-      navigate('/')
+      const redirect = params.get("redirect") || "/";
+
+      navigate(redirect, { replace: true })
     }).catch((err) => {
       if (err.status === 401) {
         setErrorMsg("Invalid credentionals")
@@ -71,7 +74,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-textSecondary mt-6">
           Don't have account?{' '}
-          <Link to="/auth/register" className="text-accent hover:underline">
+          <Link to={`/auth/register?redirect=${params.get("redirect") || "/"}`} className="text-accent hover:underline">
             Register
           </Link>
         </p>

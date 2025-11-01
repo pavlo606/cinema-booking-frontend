@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Input from '@/components/ui/Input'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { AuthAPI } from '@/api/auth.api'
 
 export default function RegisterPage() {
+  const [params] = useSearchParams()
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -12,8 +13,8 @@ export default function RegisterPage() {
   const navigate = useNavigate()
 
   const handleChange = (setFunc: React.Dispatch<React.SetStateAction<string>>, value: string) => {
-    setFunc(value);
-    setErrorMsg("");
+    setFunc(value)
+    setErrorMsg('')
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,19 +26,22 @@ export default function RegisterPage() {
     }
 
     if (password.length < 6) {
-      setErrorMsg("Password need to have at least 6 characters")
+      setErrorMsg('Password need to have at least 6 characters')
       return
     }
 
-    AuthAPI.register(email, username, password).then(() => {
-      navigate('/')
-    }).catch((err) => {
-      if (err.status === 409) {
-        setErrorMsg("Email is already in use")
-      } else {
-        setErrorMsg("Something went wrong")
-      }
-    })
+    AuthAPI.register(email, username, password)
+      .then(() => {
+        const redirect = params.get('redirect') || '/'
+        navigate(redirect, { replace: true })
+      })
+      .catch((err) => {
+        if (err.status === 409) {
+          setErrorMsg('Email is already in use')
+        } else {
+          setErrorMsg('Something went wrong')
+        }
+      })
   }
 
   return (
@@ -50,7 +54,12 @@ export default function RegisterPage() {
             <label htmlFor="email" className="block text-sm font-medium text-textSecondary mb-1">
               Email
             </label>
-            <Input type="email" value={email} onChange={(e) => handleChange(setEmail, e.target.value)} required />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => handleChange(setEmail, e.target.value)}
+              required
+            />
           </div>
 
           <div>
@@ -103,7 +112,10 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-textSecondary mt-6">
           Already have account?{' '}
-          <Link to="/auth/login" className="text-accent hover:underline">
+          <Link
+            to={`/auth/login?redirect=${params.get('redirect') || '/'}`}
+            className="text-accent hover:underline"
+          >
             Login
           </Link>
         </p>
