@@ -2,7 +2,7 @@ import { Outlet, useLoaderData } from 'react-router'
 import Header from './Header'
 import Footer from './Footer'
 import { useAuth } from '@/context/AuthContext'
-import type { User } from '@/types/user'
+import type { User } from '@/dto/user.dto'
 import { useEffect } from 'react'
 import ScrollToTop from '@/utils/ScrollToTop'
 
