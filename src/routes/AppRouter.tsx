@@ -3,6 +3,7 @@ import { lazy } from 'react'
 import { AdminRequireLoader, authRequireLoader, getUserLoader, redirectIfAuth } from './loaders/authLoader'
 import MainLayout from '@/layouts/MainLayout'
 import FilmDetails from '@/pages/FilmDetails'
+import TiketsPage from '@/pages/TiketsPage'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
             path: '/booking/:id',
             Component: BookingPage,
           },
+          {
+            path: '/tickets',
+            Component: TiketsPage,
+          }
         ],
       },
       { path: '*', element: <NotFoundPage /> },

@@ -5,7 +5,7 @@ export interface Seat {
   hallId: number
   categoryId: number
   row: number
-  number: number
+  column: number
   category: SeatCategory
   createdAt: string
   updatedAt: string

@@ -1,16 +1,18 @@
-import { X } from "lucide-react";
-import { Link } from "react-router";
-import SearchBar from "./SearchBar";
-import logo from "@/assets/cinema-logo.svg"
+import { X } from 'lucide-react'
+import { Link } from 'react-router'
+import SearchBar from './SearchBar'
+import logo from '@/assets/cinema-logo.svg'
 
 const MobileMenu = ({
   onClose,
   user,
   onLogout,
+  HeaderNav,
 }: {
   onClose: () => void
   user: { email: string; role?: string } | null
-  onLogout: () => Promise<void>
+  onLogout: () => void
+  HeaderNav: { label: string; to: string }[]
 }) => {
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" onClick={onClose}>
@@ -21,7 +23,7 @@ const MobileMenu = ({
         <div className="flex items-center justify-between mb-6">
           <Link to="/" className="flex items-center gap-2" onClick={onClose}>
             <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center text-white">
-              <img src={logo} className='p-1' alt="" />
+              <img src={logo} className="p-1" alt="" />
             </div>
             <span className="text-text-primary font-semibold">CinemaBook</span>
           </Link>
@@ -34,34 +36,15 @@ const MobileMenu = ({
         </div>
 
         <nav className="flex flex-col gap-1">
-          <Link
-            onClick={onClose}
-            to="/"
-            className="px-3 py-2 rounded-md text-text-primary hover:bg-surface"
-          >
-            Movies
-          </Link>
-          <Link
-            onClick={onClose}
-            to="/schedule"
-            className="px-3 py-2 rounded-md text-text-primary hover:bg-surface"
-          >
-            Schedule
-          </Link>
-          <Link
-            onClick={onClose}
-            to="/my-tickets"
-            className="px-3 py-2 rounded-md text-text-primary hover:bg-surface"
-          >
-            My Tikets
-          </Link>
-          <Link
-            onClick={onClose}
-            to="/about"
-            className="px-3 py-2 rounded-md text-text-primary hover:bg-surface"
-          >
-            About CinemaBooking
-          </Link>
+          {HeaderNav.map((item) => (
+            <Link
+              onClick={onClose}
+              to={item.to}
+              className="px-3 py-2 rounded-md text-text-primary hover:bg-surface"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="mt-6 border-t border-surface/40 pt-4">

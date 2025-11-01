@@ -1,11 +1,30 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
-import NavItem from '@/components/NavItem'
+import NavItem from '@/components/header/NavItem'
 import { Menu, X, User } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import logo from "@/assets/cinema-logo.svg"
-import SearchBar from '@/components/SearchBar'
-import MobileMenu from '@/components/MobileMenu'
+import SearchBar from '@/components/header/SearchBar'
+import MobileMenu from '@/components/header/MobileMenu'
+
+const HeaderNav = [
+  {
+    label: "Movies",
+    to: "/",
+  },
+  {
+    label: "Schedule",
+    to: "/schedule",
+  },
+  {
+    label: "My Tickets",
+    to: "/tickets",
+  },
+  {
+    label: "About CinemaBook",
+    to: "/about",
+  },
+]
 
 type HeaderProps = {}
 
@@ -14,6 +33,12 @@ export default function Header(_: HeaderProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout().then(() => {
+      navigate("/")
+    })
+  }
 
   return (
     <>
@@ -34,10 +59,7 @@ export default function Header(_: HeaderProps) {
               </Link>
 
               <nav className="hidden lg:flex items-center gap-1">
-                <NavItem to="/">Movies</NavItem>
-                <NavItem to="/schedule">Schedule</NavItem>
-                <NavItem to="/my-tickets">My Tickets</NavItem>
-                <NavItem to="/about">About CinemaBooking</NavItem>
+                {HeaderNav.map((item) => <NavItem to={item.to}>{item.label}</NavItem>)}
               </nav>
             </div>
 
@@ -87,10 +109,7 @@ export default function Header(_: HeaderProps) {
                           </Link>
                         )}
                         <button
-                          onClick={async () => {
-                            await logout()
-                            navigate('/')
-                          }}
+                          onClick={handleLogout}
                           className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-bg-dark/40"
                         >
                           Logout
@@ -133,7 +152,7 @@ export default function Header(_: HeaderProps) {
 
       {/* Mobile Drawer */}
       {openMobile && (
-        <MobileMenu onClose={() => setOpenMobile(false)} user={user} onLogout={logout} />
+        <MobileMenu HeaderNav={HeaderNav} onClose={() => setOpenMobile(false)} user={user} onLogout={handleLogout} />
       )}
     </>
   )

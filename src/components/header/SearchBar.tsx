@@ -15,14 +15,6 @@ const SearchBar = () => {
     }
     const id = setTimeout(async () => {
       setResults(await FilmsAPI.search(q))
-      // Тут має бути запит до бекенду (typeahead)
-      // Поки — мок
-      // const mock = [
-      //   { id: '1', title: 'Dune: Part Two' },
-      //   { id: '2', title: 'Oppenheimer' },
-      //   { id: '3', title: 'The Batman' },
-      // ].filter((m) => m.title.toLowerCase().includes(q.toLowerCase()))
-      // setResults(mock)
     }, 250)
     return () => clearTimeout(id)
   }, [q])

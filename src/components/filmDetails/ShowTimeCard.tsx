@@ -28,14 +28,14 @@ export const ShowtimeCard = ({ showtime, onSelect }: Props) => {
       className="cursor-pointer bg-bgDark border border-border rounded-xl p-4 hover:border-accent transition-colors"
     >
       <div className="flex justify-between items-center mb-2">
-        <span className="text-textPrimary font-semibold">{dayStr}</span>
-        <span className="text-textSecondary text-sm">{showtime.hall.name}</span>
+        <span className="text-text-primary font-semibold">{dayStr}</span>
+        <span className="text-text-secondary text-sm">{showtime.hall.name}</span>
       </div>
       <div className="text-2xl font-semibold text-accent mb-2">{timeStr}</div>
       {showtime.seatPrices.length > 0 && (
         <div className="text-sm text-textMuted">
           Price:{' '}
-          <span className="text-textPrimary font-medium">
+          <span className="text-text-primary font-medium">
             {minPrice}-{maxPrice} ₴
           </span>
         </div>
