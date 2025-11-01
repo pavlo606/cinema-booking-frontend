@@ -6,9 +6,10 @@ import { Link } from 'react-router'
 
 interface TicketParams {
   booking: Booking
+  setBookings: React.Dispatch<React.SetStateAction<Booking[] | undefined>>
 }
 
-const Ticket = ({ booking }: TicketParams) => {
+const Ticket = ({ booking, setBookings }: TicketParams) => {
   const date = new Date(booking.screening.startTime)
   const timeStr = date.toLocaleTimeString('uk-UA', {
     timeZone: 'UTC',
@@ -26,6 +27,7 @@ const Ticket = ({ booking }: TicketParams) => {
     const check = confirm('Are you sure, you want to delete your booking?')
     if (check) {
       BookingAPI.delete(booking.id).then(() => {
+        setBookings((prev) => prev?.filter((t) => t.id !== booking.id))
         toast.success('Booking has been canceled')
       })
     }
@@ -38,7 +40,10 @@ const Ticket = ({ booking }: TicketParams) => {
           <span className="text-primary font-bold text-2xl">{booking.screening.film.name}</span>
           <span className="text-text-primary font-semibold">{dayStr}</span>
         </div>
-        <Link to={`/booking/${booking.screening.id}`} className="text-text-secondary text-sm hover:text-accent">
+        <Link
+          to={`/booking/${booking.screening.id}`}
+          className="text-text-secondary text-sm hover:text-accent"
+        >
           {booking.screening.hall.name}
         </Link>
       </div>

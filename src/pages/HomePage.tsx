@@ -12,11 +12,14 @@ const HomePage = () => {
     })
   }, [])
 
-  return (
-    <div className="text-text-primary">
-      {films && <FilmGrid films={films} />}
-    </div>
-  )
+  if (!films)
+    return (
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <h2 className="text-2xl font-semibold mb-6 text-text-primary text-center">No movies</h2>
+      </div>
+    )
+
+  return <div className="text-text-primary">{films && <FilmGrid films={films} />}</div>
 }
 
 export default HomePage

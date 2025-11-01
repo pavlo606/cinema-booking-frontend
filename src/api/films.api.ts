@@ -14,5 +14,10 @@ export const FilmsAPI = {
   search: async (prompt: string): Promise<Array<{ id: string; name: string }>> => {
     const { data } = await api.get(`/film/search/${prompt}`)
     return data
-  }
+  },
+
+  getByDate: async (date: string) => {
+    const { data } = await api.get(`/film/by/date?date=${date}`)
+    return data
+  },
 };

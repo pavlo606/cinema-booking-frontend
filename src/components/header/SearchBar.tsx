@@ -44,7 +44,7 @@ const SearchBar = () => {
           {results.map((r) => (
             <li key={r.id}>
               <Link
-                to={`/movies/${r.id}`}
+                to={`/film/${r.id}`}
                 className="block px-4 py-3 text-sm text-text-primary hover:bg-bg-dark/40"
               >
                 {r.name}

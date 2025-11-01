@@ -1,9 +1,15 @@
 import { createBrowserRouter } from 'react-router'
 import { lazy } from 'react'
-import { AdminRequireLoader, authRequireLoader, getUserLoader, redirectIfAuth } from './loaders/authLoader'
+import {
+  AdminRequireLoader,
+  authRequireLoader,
+  getUserLoader,
+  redirectIfAuth,
+} from './loaders/authLoader'
 import MainLayout from '@/layouts/MainLayout'
 import FilmDetails from '@/pages/FilmDetails'
 import TiketsPage from '@/pages/TiketsPage'
+import Schedule from '@/pages/Schedule'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -24,6 +30,10 @@ export const router = createBrowserRouter([
         Component: FilmDetails,
       },
       {
+        path: '/schedule',
+        Component: Schedule,
+      },
+      {
         loader: authRequireLoader,
         children: [
           {
@@ -33,7 +43,7 @@ export const router = createBrowserRouter([
           {
             path: '/tickets',
             Component: TiketsPage,
-          }
+          },
         ],
       },
       { path: '*', element: <NotFoundPage /> },
@@ -56,8 +66,6 @@ export const router = createBrowserRouter([
   {
     path: 'admin',
     loader: AdminRequireLoader,
-    children: [
-        { index: true, Component: AdminDashboard },
-    ]
-  }
+    children: [{ index: true, Component: AdminDashboard }],
+  },
 ])
