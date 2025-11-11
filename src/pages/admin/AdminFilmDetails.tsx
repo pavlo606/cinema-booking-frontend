@@ -12,6 +12,7 @@ import type { Film } from '@/dto/film.dto'
 import { Pencil, Plus, Trash } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import { toast } from 'react-toastify'
 
 type Fields = 'poster' | 'name' | 'categories' | 'duration' | 'description'
 type InputsTypes = {
@@ -27,9 +28,9 @@ const AdminFilmDetails = () => {
 
   const [film, setFilm] = useState<Film | undefined>(undefined)
   const [editField, setEditField] = useState<Fields | undefined>(undefined)
-  const [isCreatingCategory, setIsCreatingCategory] = useState<boolean>(true)
-  const [categoriesOptions, setCategoriesOptions] = useState<{ value: number; label: string }[]>()
-  const [selectedCategory, setSelectedCategory] = useState<{ value: number; label: string }>()
+  const [isCreatingCategory, setIsCreatingCategory] = useState<boolean>(false)
+  const [categoriesOptions, setCategoriesOptions] = useState<FilmCategory[]>()
+  const [selectedCategory, setSelectedCategory] = useState<FilmCategory>()
   const [selectedPhoto, setSelectedPhoto] = useState<File>()
   const [inputValues, setInputValues] = useState<InputsTypes>({
     name: '',
@@ -46,7 +47,6 @@ const AdminFilmDetails = () => {
         setCategoriesOptions(
           _filmCategories
             .filter((category) => !_film.categories.some((a) => a.id == category.id))
-            .map((category) => ({ value: category.id, label: category.name }))
         )
       })
     })
@@ -66,7 +66,9 @@ const AdminFilmDetails = () => {
   }
 
   const confirmEdit = (field: Fields, value: string | number | number[]) => {
-    if (!film) return
+    if (!film) return toast.error('Error')
+    if (!value) return toast.error('You cannot make field empty')
+
     FilmsAPI.update(film.id, { [field]: value }).then(() => {
       FilmsAPI.getById(film.id).then((res: Film) => {
         setFilm(res)
@@ -78,7 +80,9 @@ const AdminFilmDetails = () => {
   }
 
   const confirmPosterEdit = (file?: File) => {
-    if (!film || !file) return
+    if (!film) return toast.error('Error')
+    if (!file) return toast.error('You need to choose image')
+
     FilmsAPI.update(film.id, {}, file).then(() => {
       FilmsAPI.getById(film.id).then((res: Film) => {
         setFilm(res)
@@ -120,10 +124,7 @@ const AdminFilmDetails = () => {
           {editField === 'poster' ? (
             <>
               <PhotoInput onChange={setSelectedPhoto} />
-              <SubmitButtons
-                onSubmit={() => confirmPosterEdit(selectedPhoto)}
-                onCancel={endEdit}
-              />
+              <SubmitButtons onSubmit={() => confirmPosterEdit(selectedPhoto)} onCancel={endEdit} />
             </>
           ) : (
             <>
@@ -181,7 +182,7 @@ const AdminFilmDetails = () => {
                   ))}
                   {isCreatingCategory ? (
                     <>
-                      <CustomSelect
+                      <CustomSelect<FilmCategory>
                         className="w-48"
                         options={categoriesOptions}
                         value={selectedCategory}
@@ -192,7 +193,7 @@ const AdminFilmDetails = () => {
                           if (!selectedCategory) return
                           confirmEdit('categories', [
                             ...inputValues.categories,
-                            selectedCategory.value,
+                            selectedCategory.id,
                           ])
                         }}
                         onCancel={cancelSelect}

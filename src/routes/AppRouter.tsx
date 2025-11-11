@@ -13,6 +13,7 @@ import Schedule from '@/pages/Schedule'
 import AdminLayout from '@/layouts/AdminLayout'
 import AdminFilmPage from '@/pages/admin/AdminFilmPage'
 import AdminFilmDetails from '@/pages/admin/AdminFilmDetails'
+import AdminFilmCreate from '@/pages/admin/AdminFilmCreate'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -77,7 +78,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, Component: AdminFilmPage },
           { path: ':id/edit', Component: AdminFilmDetails },
-          { path: 'new', Component: AdminFilmDetails },
+          { path: 'new', Component: AdminFilmCreate },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

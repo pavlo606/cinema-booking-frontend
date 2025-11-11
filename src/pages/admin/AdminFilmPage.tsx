@@ -9,36 +9,40 @@ const AdminFilmPage = () => {
   const navigate = useNavigate();
 
   const handleDelete = (id: number) => {
-    if (confirm('Видалити цей фільм?')) {
-      setFilms((prev) => prev.filter((f) => f.id !== id))
+    if (confirm('Are you sure you ant to delete film?')) {
+      FilmsAPI.delete(id).then(() => {
+        updateFilms()
+      })
     }
   }
 
   const handleAddFilm = () => {
-    alert('Відкрити форму створення фільму (TODO)')
+    navigate("/admin/films/new")
   }
 
-  useEffect(() => {
+  const updateFilms = () => {
     FilmsAPI.get().then((res) => {
       setFilms(res)
     })
+  }
+
+  useEffect(() => {
+    updateFilms()
   }, [])
 
   return (
     <div className="space-y-8">
-      {/* Заголовок */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-text-primary">Films</h1>
         <button
           onClick={handleAddFilm}
-          className="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+          className="flex items-center gap-2 bg-accent text-black px-4 py-2 rounded-lg hover:opacity-90 transition"
         >
           <Plus size={18} />
           Add film
         </button>
       </div>
 
-      {/* Таблиця */}
       <div className="bg-surface p-4 rounded-xl shadow overflow-x-auto">
         <table className="min-w-full text-left text-sm text-text-secondary">
           <thead className="border-b border-gray-700 text-text-primary">
