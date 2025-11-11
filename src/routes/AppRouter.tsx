@@ -10,12 +10,15 @@ import MainLayout from '@/layouts/MainLayout'
 import FilmDetails from '@/pages/FilmDetails'
 import TiketsPage from '@/pages/TiketsPage'
 import Schedule from '@/pages/Schedule'
+import AdminLayout from '@/layouts/AdminLayout'
+import AdminFilmPage from '@/pages/admin/AdminFilmPage'
+import AdminFilmDetails from '@/pages/admin/AdminFilmDetails'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
 const BookingPage = lazy(() => import('@/pages/BookingPage'))
-const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'))
+const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 export const router = createBrowserRouter([
@@ -66,6 +69,18 @@ export const router = createBrowserRouter([
   {
     path: 'admin',
     loader: AdminRequireLoader,
-    children: [{ index: true, Component: AdminDashboard }],
+    element: <AdminLayout />,
+    children: [
+      { index: true, Component: AdminDashboard },
+      {
+        path: 'films',
+        children: [
+          { index: true, Component: AdminFilmPage },
+          { path: ':id/edit', Component: AdminFilmDetails },
+          { path: 'new', Component: AdminFilmDetails },
+        ],
+      },
+      { path: '*', element: <NotFoundPage /> },
+    ],
   },
 ])

@@ -42,8 +42,8 @@ const Schedule = () => {
               <div className="text-text-secondary text-sm mb-3">Aviable screenings</div>
 
               <div className="flex flex-wrap gap-2">
-                {film.screenings.length > 0 ? (
-                  film.screenings.map((s) => {
+                {film.screenings?.length && film.screenings.length > 0 ? (
+                  film.screenings?.map((s) => {
                     const time = new Date(s.startTime).toLocaleTimeString('uk-UA', {
                       hour: '2-digit',
                       minute: '2-digit',

@@ -8,7 +8,7 @@ export interface Film {
   posterURL: string
   description: string
   categories: FilmCategory[]
-  screenings: Screening[]
+  screenings?: Screening[]
   createdAt: string
-  updatedAt: string
+  updatedAt?: string
 }

@@ -5,8 +5,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router'
 
 export default function LoginPage() {
   const [params] = useSearchParams();
-  const [email, setEmail] = useState('test1@gmail.com')
-  const [password, setPassword] = useState('123456')
+  const [email, setEmail] = useState('admin@example.com')
+  const [password, setPassword] = useState('StrongPass123')
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate()
 

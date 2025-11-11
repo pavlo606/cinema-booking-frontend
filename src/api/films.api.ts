@@ -1,8 +1,9 @@
-import api from "./http";
+import type { Film } from '@/dto/film.dto'
+import api from './http'
 
 export const FilmsAPI = {
   get: async () => {
-    const { data } = await api.get("/film")
+    const { data } = await api.get('/film')
     return data
   },
 
@@ -20,4 +21,17 @@ export const FilmsAPI = {
     const { data } = await api.get(`/film/by/date?date=${date}`)
     return data
   },
-};
+
+  update: async (id: number, params: Partial<Film>, file?: File) => {
+    const formData = new FormData()
+    formData.append('data', JSON.stringify(params))
+    if (file) formData.append('poster', file)
+    console.log(formData.get('poster'))
+    const { data } = await api.patch(`/film/${id}`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    })
+    return data
+  },
+}

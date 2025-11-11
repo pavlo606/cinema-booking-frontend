@@ -14,7 +14,6 @@ const FilmDetails = () => {
   useEffect(() => {
     if (filmId)
       FilmsAPI.getById(+filmId).then((res) => {
-        console.log(res)
         setFilm(res)
       })
   }, [filmId])
@@ -33,11 +32,11 @@ const FilmDetails = () => {
           Session schedule
         </h2>
 
-        {film.screenings.length === 0 ? (
+        {film.screenings?.length === 0 ? (
           <p className="text-textSecondary">No sessions at that moment.</p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {film.screenings.map((showtime) => (
+            {film.screenings?.map((showtime) => (
               <ShowtimeCard
                 key={showtime.id}
                 showtime={showtime}
