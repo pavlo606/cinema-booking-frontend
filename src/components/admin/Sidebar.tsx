@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router'
 import logo from '@/assets/cinema-logo.svg'
-import { Film, Calendar, Users, Home } from 'lucide-react'
+import { Film, Calendar, Users, Home, LayoutGrid } from 'lucide-react'
 
 const links = [
-  { to: '/admin', label: 'Головна', icon: <Home size={18} />, exact: true },
-  { to: '/admin/films', label: 'Фільми', icon: <Film size={18} /> },
-  { to: '/admin/screenings', label: 'Сеанси', icon: <Calendar size={18} /> },
-  { to: '/admin/users', label: 'Користувачі', icon: <Users size={18} /> },
+  { to: '/admin', label: 'Dashboard', icon: <Home size={18} />, exact: true },
+  { to: '/admin/films', label: 'Films', icon: <Film size={18} /> },
+  { to: '/admin/film-categories', label: 'Film Categories', icon: <LayoutGrid size={18} /> },
+  { to: '/admin/screenings', label: 'Screenings', icon: <Calendar size={18} /> },
+  { to: '/admin/users', label: 'Users', icon: <Users size={18} /> },
 ]
 
 const Sidebar = () => {

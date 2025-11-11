@@ -14,6 +14,7 @@ import AdminLayout from '@/layouts/AdminLayout'
 import AdminFilmPage from '@/pages/admin/AdminFilmPage'
 import AdminFilmDetails from '@/pages/admin/AdminFilmDetails'
 import AdminFilmCreate from '@/pages/admin/AdminFilmCreate'
+import AdminFilmCategory from '@/pages/admin/AdminFilmCategory'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
           { path: ':id/edit', Component: AdminFilmDetails },
           { path: 'new', Component: AdminFilmCreate },
         ],
+      },
+      {
+        path: 'film-categories',
+        Component: AdminFilmCategory
       },
       { path: '*', element: <NotFoundPage /> },
     ],
