@@ -59,7 +59,7 @@ export default function Header(_: HeaderProps) {
               </Link>
 
               <nav className="hidden lg:flex items-center gap-1">
-                {HeaderNav.map((item) => <NavItem to={item.to}>{item.label}</NavItem>)}
+                {HeaderNav.map((item) => <NavItem key={item.to} to={item.to}>{item.label}</NavItem>)}
               </nav>
             </div>
 

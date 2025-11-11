@@ -50,9 +50,6 @@ export default function BookingPage() {
 
   if (loading) return <p className="text-center text-text-secondary">Завантаження...</p>
 
-  console.log(screening)
-  const rows = Object.groupBy(seats, (s) => s.row)
-
   return (
     <div className="flex flex-col items-center min-h-[80vh] p-8">
       <h1 className="text-3xl font-semibold text-gray-100 mb-8">{screening?.hall.name}</h1>
@@ -61,23 +58,19 @@ export default function BookingPage() {
         <div className="text-center text-gray-400 mb-4">Screen</div>
         <div className="bg-gray-600 h-1 w-full mb-6" />
 
-        <div className="space-y-3">
-          {Object.entries(rows).map(([row, seats]) => (
-            <div key={row} className="flex justify-center gap-2">
-              {seats?.map((seat) => (
-                <SeatComponent
-                  key={seat.id}
-                  onClick={() => setSelcted(seat.id)}
-                  seat={seat}
-                  selected={selected}
-                  disabled={
-                    !!screening?.bookings.find(
-                      (val) => val.seatId === seat.id && val.status === 'Booked'
-                    )
-                  }
-                />
-              ))}
-            </div>
+        <div className="grid gap-2">
+          {seats.map((seat) => (
+            <SeatComponent
+              key={seat.id}
+              onClick={() => setSelcted(seat.id)}
+              seat={seat}
+              selected={selected}
+              disabled={
+                !!screening?.bookings.find(
+                  (val) => val.seatId === seat.id && val.status === 'Booked'
+                )
+              }
+            />
           ))}
         </div>
       </div>

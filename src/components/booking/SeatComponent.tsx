@@ -20,8 +20,8 @@ const SeatComponent = ({ seat, selected, onClick, disabled }: SeatPrams) => {
         ${defaultColor}
         ${selected === seat.id && 'bg-primary/50'}
       `}
-    >
-    </button>
+      style={{ gridRow: seat.row, gridColumn: seat.column }}
+    ></button>
   )
 }
 
