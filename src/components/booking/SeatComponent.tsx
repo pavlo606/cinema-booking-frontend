@@ -1,14 +1,14 @@
 import type { Seat } from '@/dto/seat.dto'
 
 interface SeatPrams {
-  seat: Seat
+  seat: Partial<Seat>
   selected?: number | undefined
   onClick?: () => void
   disabled?: boolean
 }
 
 const SeatComponent = ({ seat, selected, onClick, disabled }: SeatPrams) => {
-  let defaultColor = seat.category.color || 'bg-gray-700'
+  let defaultColor = seat.category?.color || 'bg-gray-700'
 
   return (
     <button
@@ -18,7 +18,7 @@ const SeatComponent = ({ seat, selected, onClick, disabled }: SeatPrams) => {
       className={`
         w-8 h-8 rounded-md text-sm font-medium transition hover:bg-primary/60 cursor-pointer disabled:bg-gray-900 disabled:hoover:bg-gray-900 disabled:cursor-default
         ${defaultColor}
-        ${selected === seat.id && 'bg-primary/50'}
+        ${seat.id && selected === seat.id && 'bg-primary/50'}
       `}
       style={{ gridRow: seat.row, gridColumn: seat.column }}
     ></button>

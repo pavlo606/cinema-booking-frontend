@@ -101,7 +101,7 @@ const AdminFilmCategory = () => {
           </button>
         )}
       </div>
-      <div className="flex gap-10 pt-5 border-t items-center">
+      <div className="flex gap-10 pt-5 border-t border-gray-600 items-center">
         {currentCategories?.map((category) => (
           <>
             <div className="flex flex-col items-center">
