@@ -1,8 +1,13 @@
-import api from "./http";
+import api from './http'
 
 export const HallAPI = {
+  create: async (name: string) => {
+    const { data } = await api.post(`/hall/`, { name })
+    return data
+  },
+
   get: async () => {
-    const { data } = await api.get("/hall")
+    const { data } = await api.get('/hall')
     return data
   },
 
@@ -10,4 +15,4 @@ export const HallAPI = {
     const { data } = await api.get(`/hall/${id}`)
     return data
   },
-};
+}

@@ -34,16 +34,21 @@ const AdminHallDetails = () => {
 
   useEffect(() => {
     const rows = Object.groupBy(seats, (s) => s.row)
-    setMaxRows(Math.max(...Object.entries(rows).map(([row, _]) => +row)))
+    setMaxRows(Math.max(...Object.entries(rows).map(([row, _]) => +row)) || 1)
     setMaxCols(
       Math.max(
         ...Object.entries(rows).map(([_, seats]) => {
           if (!seats) return 0
           return Math.max(...seats?.map((seat) => seat.column))
         })
-      )
+      ) || 1
     )
   }, [seats])
+
+  useEffect(() => {
+    if (maxCols < 1) setMaxCols(1)
+    if (maxRows < 1) setMaxRows(1)
+  }, [maxCols, maxRows])
 
   const updateHall = () => {
     if (hallId) {
@@ -76,7 +81,9 @@ const AdminHallDetails = () => {
 
     setSeats((prev) =>
       prev.map((s) =>
-        s.row === seat.row && s.column === seat.column ? { ...s, category: nextCategory, categoryId: nextCategory.id } : s
+        s.row === seat.row && s.column === seat.column
+          ? { ...s, category: nextCategory, categoryId: nextCategory.id }
+          : s
       )
     )
   }
@@ -106,13 +113,15 @@ const AdminHallDetails = () => {
         column: seat.column,
         categoryId: seat.categoryId,
       })),
-    }).then(() => {
-      toast.success("Successfuly updated")
-      updateHall()
-      endEdit()
-    }).catch(() => {
-      toast.error("Something went wrong")
     })
+      .then(() => {
+        toast.success('Successfuly updated')
+        updateHall()
+        endEdit()
+      })
+      .catch(() => {
+        toast.error('Something went wrong')
+      })
   }
 
   if (!hall) return <div>...Loading</div>
@@ -185,6 +194,7 @@ const AdminHallDetails = () => {
                 {hall.seats.map((seat) => (
                   <SeatComponent key={seat.id} seat={seat} />
                 ))}
+                {hall.seats.length < 1 && 'No seats'}
               </div>
             </>
           )}
