@@ -1,16 +1,32 @@
+import { DashboardInfoAPI } from '@/api/dashboard-info.api'
+import { useEffect, useState } from 'react'
+
 const AdminDashboard = () => {
+  const [countInfo, setCountInfo] = useState<{ title: string; value: number }[]>([
+    { title: 'Films', value: 0 },
+    { title: 'Screenings', value: 0 },
+    { title: 'Users', value: 0 },
+    { title: 'Bookings', value: 0 },
+  ])
+
+  useEffect(() => {
+    DashboardInfoAPI.getCount().then((res) => {
+      setCountInfo([
+        { title: 'Films', value: res.filmsCount },
+        { title: 'Screenings', value: res.screeningsCount },
+        { title: 'Users', value: res.usersCount },
+        { title: 'Bookings', value: res.bookingsCount },
+      ])
+    })
+  }, [])
+
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-textPrimary">Dashboard</h1>
+      <h2 className="text-2xl font-bold text-textPrimary">Dashboard</h2>
 
       {/* Статистика */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { title: 'Фільми', value: 12 },
-          { title: 'Сеанси', value: 34 },
-          { title: 'Користувачі', value: 215 },
-          { title: 'Бронювання', value: 142 },
-        ].map((item) => (
+        {countInfo.map((item) => (
           <div
             key={item.title}
             className="bg-surface p-4 rounded-xl shadow hover:shadow-lg transition"
@@ -22,7 +38,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Останні бронювання */}
-      <div className="bg-surface p-6 rounded-xl shadow">
+      {/* <div className="bg-surface p-6 rounded-xl shadow">
         <h2 className="text-lg font-semibold mb-4">Останні бронювання</h2>
         <table className="w-full text-left text-textSecondary">
           <thead className="border-b border-gray-700">
@@ -48,7 +64,7 @@ const AdminDashboard = () => {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   )
 }

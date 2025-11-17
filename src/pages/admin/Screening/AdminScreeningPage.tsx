@@ -9,11 +9,9 @@ import type { Hall } from '@/dto/hall.dto'
 import type { Screening } from '@/dto/screening.dto'
 import { Check, Pencil, Plus, Trash2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router'
+import { Link } from 'react-router'
 
 const AdminScreeningPage = () => {
-  const navigate = useNavigate()
-
   const [screenings, setScreenings] = useState<Screening[]>([])
   const [films, setFilms] = useState<Film[]>([])
   const [halls, setHalls] = useState<Hall[]>([])
