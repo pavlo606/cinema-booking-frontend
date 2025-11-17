@@ -18,6 +18,7 @@ import AdminFilmCategory from '@/pages/admin/FilmCategory/AdminFilmCategory'
 import AdminHallPage from '@/pages/admin/HallPage/AdminHallPage'
 import AdminHallDetails from '@/pages/admin/HallPage/AdminHallDetails'
 import AdminScreeningPage from '@/pages/admin/Screening/AdminScreeningPage'
+import AboutPage from '@/pages/AdoutPage'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: '/schedule',
         Component: Schedule,
+      },
+      {
+        path: '/about',
+        Component: AboutPage,
       },
       {
         loader: authRequireLoader,
