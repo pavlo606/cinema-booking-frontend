@@ -33,7 +33,7 @@ const AdminFilmPage = () => {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-text-primary">Films</h1>
+        <h2 className="text-2xl font-bold text-text-primary">Films</h2>
         <button
           onClick={handleAddFilm}
           className="flex items-center gap-2 bg-accent text-black px-4 py-2 rounded-lg hover:opacity-90 transition"

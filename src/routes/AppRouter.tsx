@@ -17,6 +17,7 @@ import AdminFilmCreate from '@/pages/admin/FilmPage/AdminFilmCreate'
 import AdminFilmCategory from '@/pages/admin/AdminFilmCategory'
 import AdminHallPage from '@/pages/admin/HallPage/AdminHallPage'
 import AdminHallDetails from '@/pages/admin/HallPage/AdminHallDetails'
+import AdminScreeningPage from '@/pages/admin/Screening/AdminScreeningPage'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -95,6 +96,15 @@ export const router = createBrowserRouter([
           {
             path: ':id/edit',
             Component: AdminHallDetails,
+          },
+        ],
+      },
+      {
+        path: 'screenings',
+        children: [
+          {
+            index: true,
+            Component: AdminScreeningPage,
           },
         ],
       },

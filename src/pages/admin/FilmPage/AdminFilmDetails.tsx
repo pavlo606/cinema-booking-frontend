@@ -9,7 +9,7 @@ import PhotoInput from '@/components/ui/PhotoInput'
 import SubmitButtons from '@/components/ui/SubmitButtons'
 import type { FilmCategory } from '@/dto/film-category.dto'
 import type { Film } from '@/dto/film.dto'
-import { Pencil, Plus, Trash } from 'lucide-react'
+import { ArrowLeft, Pencil, Plus, Trash } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { toast } from 'react-toastify'
@@ -118,6 +118,7 @@ const AdminFilmDetails = () => {
 
   return (
     <div>
+      <IconButton icon={<ArrowLeft size={18} />} onClick={() => navigate('/admin/films')} />
       <section className="flex flex-col md:flex-row gap-8">
         {/* Poster */}
         <div className="md:w-1/3 flex items-start gap-4 mr-3">

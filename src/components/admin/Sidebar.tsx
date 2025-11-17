@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router'
 import logo from '@/assets/cinema-logo.svg'
-import { Film, TvMinimalPlay, Users, Home, LayoutGrid } from 'lucide-react'
+import { Film, Grid3x3, Users, Home, Tags, CalendarClock } from 'lucide-react'
 
 const links = [
   { to: '/admin', label: 'Dashboard', icon: <Home size={18} />, exact: true },
   { to: '/admin/films', label: 'Films', icon: <Film size={18} /> },
-  { to: '/admin/film-categories', label: 'Film Categories', icon: <LayoutGrid size={18} /> },
-  { to: '/admin/halls', label: 'Halls', icon: <TvMinimalPlay size={18} /> },
+  { to: '/admin/film-categories', label: 'Film Categories', icon: <Tags size={18} /> },
+  { to: '/admin/halls', label: 'Halls', icon: <Grid3x3 size={18} /> },
+  { to: '/admin/screenings', label: 'Screenings', icon: <CalendarClock size={18} /> },
   { to: '/admin/users', label: 'Users', icon: <Users size={18} /> },
 ]
 
