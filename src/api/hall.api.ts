@@ -15,4 +15,9 @@ export const HallAPI = {
     const { data } = await api.get(`/hall/${id}`)
     return data
   },
+
+  delete: async (id: number) => {
+    const { data } = await api.delete(`/hall/${id}`)
+    return data
+  },
 }

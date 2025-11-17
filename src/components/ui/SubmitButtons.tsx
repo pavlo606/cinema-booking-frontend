@@ -15,13 +15,13 @@ const SubmitButtons = ({ onCancel, onSubmit, sumbitIcon, cancelIcon }: SubmitBut
     <div>
       <button
         onClick={onSubmit}
-        className="text-green-400 hover:text-blue-300"
+        className="text-green-400 hover:text-blue-300 cursor-pointer"
       >
         {sumbitIcon}
       </button>
       <button
         onClick={onCancel}
-        className="text-red-400 hover:text-blue-300"
+        className="text-red-400 hover:text-blue-300 cursor-pointer"
       >
         {cancelIcon}
       </button>

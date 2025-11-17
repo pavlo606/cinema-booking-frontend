@@ -11,12 +11,12 @@ import FilmDetails from '@/pages/FilmDetails'
 import TiketsPage from '@/pages/TiketsPage'
 import Schedule from '@/pages/Schedule'
 import AdminLayout from '@/layouts/AdminLayout'
-import AdminFilmPage from '@/pages/admin/AdminFilmPage'
-import AdminFilmDetails from '@/pages/admin/AdminFilmDetails'
-import AdminFilmCreate from '@/pages/admin/AdminFilmCreate'
+import AdminFilmPage from '@/pages/admin/FilmPage/AdminFilmPage'
+import AdminFilmDetails from '@/pages/admin/FilmPage/AdminFilmDetails'
+import AdminFilmCreate from '@/pages/admin/FilmPage/AdminFilmCreate'
 import AdminFilmCategory from '@/pages/admin/AdminFilmCategory'
-import AdminHallPage from '@/pages/admin/AdminHallPage'
-import AdminHallDetails from '@/pages/admin/AdminHallDetails'
+import AdminHallPage from '@/pages/admin/HallPage/AdminHallPage'
+import AdminHallDetails from '@/pages/admin/HallPage/AdminHallDetails'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))

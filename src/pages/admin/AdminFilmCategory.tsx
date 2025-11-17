@@ -79,7 +79,7 @@ const AdminFilmCategory = () => {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-text-primary">Categories</h1>
+        <h2 className="text-2xl font-bold text-text-primary">Categories</h2>
         {isCreateCategory ? (
           <div className="flex items-center">
             <div className="flex w-96 gap-5">

@@ -4,10 +4,11 @@ import { SeatAPI } from '@/api/seat.api'
 import SeatComponent from '@/components/booking/SeatComponent'
 import type { Hall } from '@/dto/hall.dto'
 import type { SeatCategory } from '@/dto/seat-category.dto'
-import { Plus } from 'lucide-react'
+import { Plus, ArrowLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { toast } from 'react-toastify'
+import IconButton from '@/components/ui/IconButton'
 
 type SeatCreateDTO = {
   row: number
@@ -20,6 +21,7 @@ type SeatCreateDTO = {
 
 const AdminHallDetails = () => {
   const { id: hallId } = useParams()
+  const navigate = useNavigate()
 
   const [hall, setHall] = useState<Hall>()
   const [seatCategories, setSeatCategories] = useState<SeatCategory[]>()
@@ -34,14 +36,14 @@ const AdminHallDetails = () => {
 
   useEffect(() => {
     const rows = Object.groupBy(seats, (s) => s.row)
-    setMaxRows(Math.max(...Object.entries(rows).map(([row, _]) => +row)) || 1)
+    setMaxRows(Math.max(...Object.entries(rows).map(([row, _]) => +row)))
     setMaxCols(
       Math.max(
         ...Object.entries(rows).map(([_, seats]) => {
           if (!seats) return 0
           return Math.max(...seats?.map((seat) => seat.column))
         })
-      ) || 1
+      )
     )
   }, [seats])
 
@@ -56,10 +58,10 @@ const AdminHallDetails = () => {
         setHall(res)
         setSeats(res.seats)
       })
-      SeatCategoryAPI.get().then((res: SeatCategory[]) => {
-        setSeatCategories(res)
-      })
     }
+    SeatCategoryAPI.get().then((res: SeatCategory[]) => {
+      setSeatCategories(res)
+    })
   }
 
   const handleRightClick = (row: number, column: number) => {
@@ -128,7 +130,8 @@ const AdminHallDetails = () => {
 
   return (
     <div>
-      <div>{hall.name}</div>
+      <IconButton icon={<ArrowLeft size={18} />} onClick={() => navigate('/admin/halls')} />
+      <h2 className="text-2xl font-bold text-text-primary">{hall.name}</h2>
       <div className="flex flex-col items-center">
         <div className="bg-gray-800 rounded-2xl p-6 shadow-lg">
           {isSeatEdit ? (
@@ -136,7 +139,7 @@ const AdminHallDetails = () => {
               <div className="flex justify-end">
                 <button
                   onClick={() => setMaxCols(maxCols + 1)}
-                  className="rounded-md text-sm font-medium transition hover:bg-surface"
+                  className="rounded-md text-sm font-medium transition hover:bg-surface cursor-pointer"
                 >
                   <Plus />
                 </button>
@@ -145,7 +148,7 @@ const AdminHallDetails = () => {
                 <div className="flex items-end">
                   <button
                     onClick={() => setMaxRows(maxRows + 1)}
-                    className="rounded-md text-sm font-medium transition hover:bg-surface"
+                    className="rounded-md text-sm font-medium transition hover:bg-surface cursor-pointer"
                   >
                     <Plus />
                   </button>
@@ -172,6 +175,7 @@ const AdminHallDetails = () => {
                             seat={
                               seats.filter((seat) => seat.row === row && seat.column === col)[0]
                             }
+                            hoverDisable
                           />
                         ) : (
                           <button
@@ -222,6 +226,21 @@ const AdminHallDetails = () => {
             Edit seats
           </button>
         )}
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-text-primary">Categories</h2>
+        <div className="flex flex-wrap gap-4 mt-8">
+          {seatCategories &&
+            seatCategories.map((category) => (
+              <div key={category.id} className="flex items-center">
+                <div
+                  className={`w-8 h-8 rounded-md`}
+                  style={{ backgroundColor: category.color }}
+                ></div>
+                <p className="ml-1">- {category.name}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   )

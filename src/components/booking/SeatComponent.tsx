@@ -1,26 +1,30 @@
 import type { Seat } from '@/dto/seat.dto'
+import './SeatComponent.css'
 
 interface SeatPrams {
   seat: Partial<Seat>
   selected?: number | undefined
   onClick?: () => void
   disabled?: boolean
+  hoverDisable?: boolean
 }
 
-const SeatComponent = ({ seat, selected, onClick, disabled }: SeatPrams) => {
-  let defaultColor = seat.category?.color || 'bg-gray-700'
+const SeatComponent = ({ seat, selected, onClick, disabled, hoverDisable }: SeatPrams) => {
+  const defaultColor = seat.category?.color || '#364153'
+
+  const seatStyles = {
+    gridRow: seat.row,
+    gridColumn: seat.column,
+    '--seat-color': defaultColor,
+  }
 
   return (
     <button
       onClick={onClick}
       key={seat.id}
       disabled={disabled}
-      className={`
-        w-8 h-8 rounded-md text-sm font-medium transition hover:bg-primary/60 cursor-pointer disabled:bg-gray-900 disabled:hoover:bg-gray-900 disabled:cursor-default
-        ${defaultColor}
-        ${seat.id && selected === seat.id && 'bg-primary/50'}
-      `}
-      style={{ gridRow: seat.row, gridColumn: seat.column }}
+      className={`${hoverDisable ? "seat-without-hover" : "seat"} ${seat.id && selected === seat.id && 'selected'}`}
+      style={seatStyles}
     ></button>
   )
 }

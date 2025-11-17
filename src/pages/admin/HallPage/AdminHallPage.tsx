@@ -5,6 +5,7 @@ import type { Hall } from '@/dto/hall.dto'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
+import SeatCategoryPanel from './SeatCategory'
 
 const AdminHallPage = () => {
   const navigate = useNavigate()
@@ -35,6 +36,14 @@ const AdminHallPage = () => {
       setIsCreateHall(false)
       setCreateInputValue('')
 
+      HallAPI.get().then((res: Hall[]) => {
+        setHalls(res)
+      })
+    })
+  }
+
+  const handleDelete = (id: number) => {
+    HallAPI.delete(id).then(() => {
       HallAPI.get().then((res: Hall[]) => {
         setHalls(res)
       })
@@ -88,13 +97,13 @@ const AdminHallPage = () => {
                 <td className="py-3 px-3 text-right">
                   <button
                     onClick={() => navigate(`/admin/halls/${hall.id}/edit`)}
-                    className="text-blue-400 hover:text-blue-300 mr-3"
+                    className="text-blue-400 hover:text-blue-300 mr-3 cursor-pointer"
                   >
                     <Pencil size={18} />
                   </button>
                   <button
-                    // onClick={() => handleDelete(film.id)}
-                    className="text-red-400 hover:text-red-300"
+                    onClick={() => handleDelete(hall.id)}
+                    className="text-red-400 hover:text-red-300 cursor-pointer"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -103,6 +112,10 @@ const AdminHallPage = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-text-primary">Categories</h2>
+        <SeatCategoryPanel />
       </div>
     </div>
   )

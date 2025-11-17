@@ -1,0 +1,50 @@
+.seat {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  border-radius: var(--radius-md);
+  height: calc(var(--spacing) * 8);
+  width: calc(var(--spacing) * 8);
+  cursor: pointer;
+
+  --seat-color: #364153;
+  background-color: var(--seat-color);
+
+  &.selected {
+    background-color: color-mix(in oklab, #e50914 60%, transparent);
+  }
+
+  &:hover {
+    background-color: color-mix(in oklab, #e50914 60%, transparent);
+  }
+
+  &:disabled {
+    background-color: #101828;
+    cursor: default;
+  }
+}
+
+.seat-without-hover {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  border-radius: var(--radius-md);
+  height: calc(var(--spacing) * 8);
+  width: calc(var(--spacing) * 8);
+  cursor: pointer;
+
+  --seat-color: #364153;
+  background-color: var(--seat-color);
+
+  &.selected {
+    background-color: color-mix(in oklab, #e50914 60%, transparent);
+  }
+
+  &:disabled {
+    background-color: #101828;
+    cursor: default;
+  }
+}
+
