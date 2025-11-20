@@ -285,7 +285,7 @@ const AdminFilmDetails = () => {
               <ShowtimeCard
                 key={showtime.id}
                 showtime={showtime}
-                onSelect={() => navigate(`/booking/${showtime.id}`)}
+                // onSelect={() => navigate(`/booking/${showtime.id}`)}
               />
             ))}
           </div>

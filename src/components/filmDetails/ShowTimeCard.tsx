@@ -2,7 +2,7 @@ import type { Screening } from '@/dto/screening.dto'
 
 interface Props {
   showtime: Screening
-  onSelect: () => void
+  onSelect?: () => void
 }
 
 export const ShowtimeCard = ({ showtime, onSelect }: Props) => {

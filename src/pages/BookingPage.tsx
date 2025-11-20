@@ -86,7 +86,10 @@ export default function BookingPage() {
         {screening?.seatPrices &&
           screening?.seatPrices.map((seatPrice) => (
             <div key={seatPrice.id} className="flex items-center">
-              <div className={`w-8 h-8 rounded-md ${seatPrice.category.color}`}></div>
+              <div
+                className={`w-8 h-8 rounded-md`}
+                style={{ backgroundColor: seatPrice.category.color }}
+              ></div>
               <p className="ml-1">
                 - {seatPrice.category.name} ({seatPrice.price} ₴)
               </p>

@@ -1,6 +1,7 @@
 import { FilmsAPI } from '@/api/films.api'
 import { HallAPI } from '@/api/hall.api'
 import { ScreeningAPI } from '@/api/screening.api'
+import EditPricesModal from '@/components/admin/EditPricesModal'
 import CustomSelect from '@/components/ui/CustomSelect'
 import IconButton from '@/components/ui/IconButton'
 import Input from '@/components/ui/Input'
@@ -20,6 +21,8 @@ const AdminScreeningPage = () => {
   const [inputHall, setInputHall] = useState<Hall | null>(null)
   const [inputDate, setInputDate] = useState<string>('')
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false)
+  const [isPricesModalOpen, setPricesModalOpen] = useState<boolean>(false)
+  const [modalScreening, setModalScreening] = useState<Screening | null>(null)
 
   useEffect(() => {
     update()
@@ -28,7 +31,6 @@ const AdminScreeningPage = () => {
   const update = () => {
     ScreeningAPI.get().then((res: Screening[]) => {
       setScreenings(res)
-      console.log(res)
     })
     FilmsAPI.get().then((res: Film[]) => {
       setFilms(res)
@@ -93,8 +95,19 @@ const AdminScreeningPage = () => {
     setInputHall(null)
   }
 
+  const onCloseModal = () => {
+    setPricesModalOpen(false)
+    update()
+  }
+
   return (
     <div className="min-h-screen bg-bgDark text-textPrimary p-6">
+      <EditPricesModal
+        isOpen={isPricesModalOpen}
+        onClose={onCloseModal}
+        screening={modalScreening}
+      />
+
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Screenings</h2>
         <button
@@ -198,6 +211,12 @@ const AdminScreeningPage = () => {
                     </td>
                     <td>{new Date(s.startTime).toLocaleString()}</td>
                     <td className="py-3 px-3 text-right flex gap-2 justify-end">
+                      <button
+                        onClick={() => {setPricesModalOpen(true); setModalScreening(s)}}
+                        className="bg-accent text-bg-dark text-sm px-3 py-1 rounded-lg font-medium hover:bg-accent/80 transition"
+                      >
+                        Set Prices
+                      </button>
                       <IconButton
                         onClick={() => startEdit(s.id)}
                         icon={<Pencil size={18} />}
@@ -213,7 +232,6 @@ const AdminScreeningPage = () => {
                 )}
               </tr>
             ))}
-            
           </tbody>
         </table>
       </div>
