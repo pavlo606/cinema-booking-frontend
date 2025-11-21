@@ -1,8 +1,10 @@
 import { BookingAPI } from '@/api/booking.api'
 import { ScreeningAPI } from '@/api/screening.api'
 import SeatComponent from '@/components/booking/SeatComponent'
+import type { Booking } from '@/dto/booking.dto'
 import type { Screening } from '@/dto/screening.dto'
 import type { Seat } from '@/dto/seat.dto'
+import { useScreeningSocket } from '@/hooks/UseScreeningSocket'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
@@ -10,13 +12,20 @@ export default function BookingPage() {
   const { id: screeningId } = useParams()
   const [seats, setSeats] = useState<Seat[]>([])
   const [screening, setScreening] = useState<Screening>()
+  const [bookings, setBookings] = useState<Booking[]>()
   const [selected, setSelcted] = useState<number | undefined>()
   const [loading, setLoading] = useState(true)
+
+  useScreeningSocket(Number(screeningId), (updateBookings) => {
+    console.log(updateBookings)
+    setBookings(updateBookings)
+  })
 
   useEffect(() => {
     if (screeningId) {
       ScreeningAPI.getById(+screeningId).then((data: Screening) => {
         setScreening(data)
+        setBookings(data.bookings)
         setSeats(data.hall.seats)
         setLoading(false)
       })
@@ -35,6 +44,7 @@ export default function BookingPage() {
           if (screeningId) {
             ScreeningAPI.getById(+screeningId).then((data: Screening) => {
               setScreening(data)
+              setBookings(data.bookings)
               setSeats(data.hall.seats)
               setLoading(false)
             })
@@ -66,9 +76,7 @@ export default function BookingPage() {
               seat={seat}
               selected={selected}
               disabled={
-                !!screening?.bookings.find(
-                  (val) => val.seatId === seat.id && val.status === 'Booked'
-                )
+                !!bookings?.find((val) => val.seatId === seat.id && val.status === 'Booked')
               }
             />
           ))}
