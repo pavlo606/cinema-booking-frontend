@@ -1,5 +1,12 @@
 import { DashboardInfoAPI } from '@/api/dashboard-info.api'
+import { ReportsAPI } from '@/api/reports.api';
+import { OccupancyTable } from '@/components/reports/OccupancyTable';
+import ReportFilters from '@/components/reports/ReportFilters';
+import { RevenueTable } from '@/components/reports/RevenueTable';
+import { TicketsSoldTable } from '@/components/reports/TicketsSoldTable';
 import { useEffect, useState } from 'react'
+
+type ModeType = "tickets" | "revenue" | "occupancy"
 
 const AdminDashboard = () => {
   const [countInfo, setCountInfo] = useState<{ title: string; value: number }[]>([
@@ -20,11 +27,42 @@ const AdminDashboard = () => {
     })
   }, [])
 
+  const [filters, setFilters] = useState({
+    from: "",
+    to: "",
+  });
+
+  const [mode, setMode] = useState<ModeType>("tickets"); // tickets | revenue | occupancy
+
+  const [soldTicketsData, setSoldTicketsData] = useState<any>()
+  const [revenueData, setRevenueData] = useState<any>()
+  const [occupancyData, setOccupancyData] = useState<any>()
+
+
+  const generateReport = () => {
+    const _filters = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v != ''))
+    
+    if (mode === "tickets") {
+      ReportsAPI.getTicketsSoldReport(_filters).then((res) => {
+        setSoldTicketsData(res)
+      })
+    }
+    else if (mode === "revenue") {
+      ReportsAPI.getRevenueReport(_filters).then((res) => {
+        setRevenueData(res)
+      })
+    }
+    else if (mode === "occupancy") {
+      ReportsAPI.getOccupancyReport(_filters).then((res) => {
+        setOccupancyData(res)
+      })
+    }
+  }
+
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-textPrimary">Dashboard</h2>
 
-      {/* Статистика */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {countInfo.map((item) => (
           <div
@@ -37,34 +75,35 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* Останні бронювання */}
-      {/* <div className="bg-surface p-6 rounded-xl shadow">
-        <h2 className="text-lg font-semibold mb-4">Останні бронювання</h2>
-        <table className="w-full text-left text-textSecondary">
-          <thead className="border-b border-gray-700">
-            <tr>
-              <th>Користувач</th>
-              <th>Фільм</th>
-              <th>Дата</th>
-              <th>Статус</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-gray-700">
-              <td>Іван Петренко</td>
-              <td>Дюна 2</td>
-              <td>28 жовтня 2025, 18:00</td>
-              <td className="text-green-400">Підтверджено</td>
-            </tr>
-            <tr>
-              <td>Марія Коваль</td>
-              <td>Джокер 2</td>
-              <td>29 жовтня 2025, 21:00</td>
-              <td className="text-yellow-400">Очікує</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> */}
+      <div className="p-6 textPrimary">
+        <h1 className="text-2xl font-bold mb-6">Reports</h1>
+
+        <div className="flex gap-4 mb-6">
+          {(['tickets', 'revenue', 'occupancy'] as ModeType[]).map((tab) => (
+            <button
+              key={tab}
+              className={`px-4 py-2 rounded-md ${
+                mode === tab ? 'bg-primary text-white' : 'bg-surface'
+              }`}
+              onClick={() => setMode(tab)}
+            >
+              {tab === 'tickets' && 'Tickets Sold'}
+              {tab === 'revenue' && 'Revenue'}
+              {tab === 'occupancy' && 'Hall Occupancy'}
+            </button>
+          ))}
+        </div>
+
+        <ReportFilters value={filters} onChange={setFilters} onSubmit={() => generateReport()} />
+
+        {soldTicketsData && mode === 'tickets' && <TicketsSoldTable data={soldTicketsData} />}
+        {revenueData && mode === 'revenue' && <RevenueTable data={revenueData} />}
+        {occupancyData && mode === 'occupancy' && <OccupancyTable data={occupancyData} />}
+
+        {/* {query.data && mode === 'tickets' && <TicketsSoldTable data={query.data} />}
+        {query.data && mode === 'revenue' && <RevenueTable data={query.data} />}
+        {query.data && mode === 'occupancy' && <OccupancyChart data={query.data} />} */}
+      </div>
     </div>
   )
 }
