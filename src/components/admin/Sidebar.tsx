@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router'
 import logo from '@/assets/cinema-logo.svg'
-import { Film, Grid3x3, Home, Tags, CalendarClock } from 'lucide-react'
+import { Film, Grid3x3, Home, Tags, CalendarClock, TicketPercent } from 'lucide-react'
 
 const links = [
   { to: '/admin', label: 'Dashboard', icon: <Home size={18} />, exact: true },
@@ -8,6 +8,7 @@ const links = [
   { to: '/admin/film-categories', label: 'Film Categories', icon: <Tags size={18} /> },
   { to: '/admin/halls', label: 'Halls', icon: <Grid3x3 size={18} /> },
   { to: '/admin/screenings', label: 'Screenings', icon: <CalendarClock size={18} /> },
+  { to: '/admin/promo', label: 'Promo Codes', icon: <TicketPercent size={18} /> },
 ]
 
 const Sidebar = () => {

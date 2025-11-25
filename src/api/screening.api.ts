@@ -26,4 +26,9 @@ export const ScreeningAPI = {
     const { data } = await api.patch(`/screening/${id}`, screening)
     return data
   },
+
+  delete: async (id: number) => {
+    const { data } = await api.delete(`/screening/${id}`)
+    return data
+  },
 };

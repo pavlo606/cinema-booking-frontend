@@ -11,6 +11,7 @@ import type { Screening } from '@/dto/screening.dto'
 import { Check, Pencil, Plus, Trash2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
+import { toast } from 'react-toastify'
 
 const AdminScreeningPage = () => {
   const [screenings, setScreenings] = useState<Screening[]>([])
@@ -98,6 +99,17 @@ const AdminScreeningPage = () => {
   const onCloseModal = () => {
     setPricesModalOpen(false)
     update()
+  }
+
+  const deleteScreening = (id: number) => {
+    if (!confirm("Are you sure you want to delete")) return
+
+    ScreeningAPI.delete(id).then(() => {
+      toast.success("Screening deleted")
+      update()
+    }).catch(() => {
+      toast.error("Error")
+    })
   }
 
   return (
@@ -223,7 +235,7 @@ const AdminScreeningPage = () => {
                         color="text-blue"
                       />
                       <IconButton
-                        onClick={() => null}
+                        onClick={() => deleteScreening(s.id)}
                         icon={<Trash2 size={18} />}
                         color="text-red"
                       />

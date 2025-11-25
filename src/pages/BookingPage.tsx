@@ -1,4 +1,3 @@
-import { BookingAPI } from '@/api/booking.api'
 import { ScreeningAPI } from '@/api/screening.api'
 import ConfirmBookingModal from '@/components/booking/ConfirmBookingModal'
 import SeatComponent from '@/components/booking/SeatComponent'
@@ -40,29 +39,6 @@ export default function BookingPage() {
 
   const handleBooking = () => {
     setIsModalOpen(true)
-    // if (selected && screening) {
-    //   const seat = seats.find((seat) => seat.id === selected)
-    //   const msg = `Do you want to book a seat with row: ${seat?.row} and column: ${seat?.column}, at the ${new Date(screening.startTime).toLocaleTimeString('uk-UA', { timeZone: 'UTC' })}`
-    //   if (!confirm(msg)) return
-
-    //   BookingAPI.create(screening.id, selected)
-    //     .then(() => {
-    //       setSelcted(undefined)
-    //       if (screeningId) {
-    //         ScreeningAPI.getById(+screeningId).then((data: Screening) => {
-    //           setScreening(data)
-    //           setBookings(data.bookings)
-    //           setSeats(data.hall.seats)
-    //           setLoading(false)
-    //         })
-    //       }
-    //     })
-    //     .catch(() => {
-    //       alert('This seat is taken')
-    //     })
-    // } else {
-    //   alert('Choose one seat!')
-    // }
   }
 
   const onModalClose = () => {
