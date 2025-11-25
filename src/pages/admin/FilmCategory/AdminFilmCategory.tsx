@@ -47,6 +47,7 @@ const AdminFilmCategory = () => {
     FilmCategoryAPI.create(createInputValue)
       .then(() => {
         setIsCreateCategory(false)
+        setCreateInputValue("")
         FilmCategoryAPI.get().then((res) => {
           setCurrentCategories(res)
         })

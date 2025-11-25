@@ -37,7 +37,7 @@ const AdminPromoPage = () => {
       setInputDiscount(selectedPromo.discount)
       const date = new Date(selectedPromo.expiresAt)
       setInputDate(
-        `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+        `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
       )
     }
   }
@@ -86,7 +86,7 @@ const AdminPromoPage = () => {
   }
 
   const deletePromo = (id: number) => {
-    if (!confirm("Are you sure you want to delete")) return
+    if (!confirm('Are you sure you want to delete')) return
 
     PromoAPI.delete(id)
       .then(() => {

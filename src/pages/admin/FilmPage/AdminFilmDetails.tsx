@@ -246,9 +246,8 @@ const AdminFilmDetails = () => {
             <div className="flex items-center gap-4 mb-4">
               {editField === 'description' ? (
                 <>
-                  <Input
-                    type="text"
-                    className="text-3xl font-bold text-text-primary"
+                  <textarea
+                    className="text-text-primary w-full border rounded-2xl p-4 h-100 overflow-auto"
                     value={inputValues.description}
                     onChange={(e) =>
                       setInputValues({ ...inputValues, description: e.target.value })

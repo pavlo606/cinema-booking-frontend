@@ -31,8 +31,42 @@ const PhotoInput = ({ onChange }: PhotoInputParams) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedPhoto])
 
+  const handleDragEnter = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDragLeave = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDragOver = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDrop = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const droppedFiles: File[] = Array.from(e.dataTransfer.files)
+    console.log(droppedFiles)
+    if (!droppedFiles) {
+      setSelectedPhoto(undefined)
+      return
+    }
+
+    setSelectedPhoto(droppedFiles[0])
+  }
+
   return (
-    <div className="flex items-center justify-center w-full">
+    <div
+      className="flex items-center justify-center w-full"
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       <label
         htmlFor="dropzone-file"
         className="flex flex-col items-center justify-center w-full min-h-64 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-bg-dark hover:bg-surface"
@@ -59,12 +93,16 @@ const PhotoInput = ({ onChange }: PhotoInputParams) => {
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
               <span className="font-semibold">Click to upload</span> or drag and drop
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              SVG, PNG, JPG or GIF
-            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG, GIF, Webp</p>
           </div>
         )}
-        <input id="dropzone-file" type="file" className="hidden" onChange={onSelectFile} accept=".png, .jpg, .jpeg, .gif, .svg" />
+        <input
+          id="dropzone-file"
+          type="file"
+          className="hidden"
+          onChange={onSelectFile}
+          accept=".png, .jpg, .jpeg, .gif, .svg, .webp"
+        />
       </label>
     </div>
   )
