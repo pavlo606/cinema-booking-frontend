@@ -20,6 +20,7 @@ import AdminHallDetails from '@/pages/admin/HallPage/AdminHallDetails'
 import AdminScreeningPage from '@/pages/admin/Screening/AdminScreeningPage'
 import AboutPage from '@/pages/AdoutPage'
 import AdminPromoPage from '@/pages/admin/Promo/PromoPage'
+import ProfilePage from '@/pages/ProfilePage'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
             path: '/tickets',
             Component: TiketsPage,
           },
+          {
+            path: '/profile',
+            Component: ProfilePage
+          }
         ],
       },
       { path: '*', element: <NotFoundPage /> },

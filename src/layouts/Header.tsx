@@ -85,7 +85,7 @@ export default function Header(_: HeaderProps) {
                     >
                       <User className="w-5 h-5 text-text-primary/90" />
                       <span className="hidden lg:inline text-sm text-text-primary">
-                        {user.email}
+                        {user.username || user.email}
                       </span>
                     </button>
 
