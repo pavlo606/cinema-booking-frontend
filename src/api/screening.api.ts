@@ -17,6 +17,11 @@ export const ScreeningAPI = {
     return data
   },
 
+  getPrices: async (id: number) => {
+    const { data } = await api.get(`/screening/${id}/prices`)
+    return data
+  },
+
   update: async (id: number, screening: Partial<Screening>) => {
     const { data } = await api.patch(`/screening/${id}`, screening)
     return data

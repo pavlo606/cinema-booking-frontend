@@ -1,5 +1,6 @@
 import { BookingAPI } from '@/api/booking.api'
 import { ScreeningAPI } from '@/api/screening.api'
+import ConfirmBookingModal from '@/components/booking/ConfirmBookingModal'
 import SeatComponent from '@/components/booking/SeatComponent'
 import type { Booking } from '@/dto/booking.dto'
 import type { Screening } from '@/dto/screening.dto'
@@ -15,13 +16,14 @@ export default function BookingPage() {
   const [bookings, setBookings] = useState<Booking[]>()
   const [selected, setSelcted] = useState<number | undefined>()
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useScreeningSocket(Number(screeningId), (updateBookings) => {
     console.log(updateBookings)
     setBookings(updateBookings)
   })
 
-  useEffect(() => {
+  const update = (_screeningId: string | undefined) => {
     if (screeningId) {
       ScreeningAPI.getById(+screeningId).then((data: Screening) => {
         setScreening(data)
@@ -30,38 +32,55 @@ export default function BookingPage() {
         setLoading(false)
       })
     }
+  }
+
+  useEffect(() => {
+    update(screeningId)
   }, [screeningId])
 
   const handleBooking = () => {
-    if (selected && screening) {
-      const seat = seats.find((seat) => seat.id === selected)
-      const msg = `Do you want to book a seat with row: ${seat?.row} and column: ${seat?.column}, at the ${new Date(screening.startTime).toLocaleTimeString('uk-UA', { timeZone: 'UTC' })}`
-      if (!confirm(msg)) return
+    setIsModalOpen(true)
+    // if (selected && screening) {
+    //   const seat = seats.find((seat) => seat.id === selected)
+    //   const msg = `Do you want to book a seat with row: ${seat?.row} and column: ${seat?.column}, at the ${new Date(screening.startTime).toLocaleTimeString('uk-UA', { timeZone: 'UTC' })}`
+    //   if (!confirm(msg)) return
 
-      BookingAPI.create(screening.id, selected)
-        .then(() => {
-          setSelcted(undefined)
-          if (screeningId) {
-            ScreeningAPI.getById(+screeningId).then((data: Screening) => {
-              setScreening(data)
-              setBookings(data.bookings)
-              setSeats(data.hall.seats)
-              setLoading(false)
-            })
-          }
-        })
-        .catch(() => {
-          alert('This seat is taken')
-        })
-    } else {
-      alert('Choose one seat!')
-    }
+    //   BookingAPI.create(screening.id, selected)
+    //     .then(() => {
+    //       setSelcted(undefined)
+    //       if (screeningId) {
+    //         ScreeningAPI.getById(+screeningId).then((data: Screening) => {
+    //           setScreening(data)
+    //           setBookings(data.bookings)
+    //           setSeats(data.hall.seats)
+    //           setLoading(false)
+    //         })
+    //       }
+    //     })
+    //     .catch(() => {
+    //       alert('This seat is taken')
+    //     })
+    // } else {
+    //   alert('Choose one seat!')
+    // }
+  }
+
+  const onModalClose = () => {
+    setIsModalOpen(!isModalOpen)
+    update(screeningId)
   }
 
   if (loading) return <p className="text-center text-text-secondary">Завантаження...</p>
 
   return (
     <div className="flex flex-col items-center min-h-[80vh] p-8">
+      <ConfirmBookingModal
+        isOpen={isModalOpen}
+        onClose={onModalClose}
+        seatId={selected}
+        screeningId={+(screeningId || 0)}
+      />
+
       <h1 className="text-3xl font-semibold text-gray-100 mb-8">{screening?.hall.name}</h1>
 
       <div className="bg-gray-800 rounded-2xl p-6 shadow-lg">

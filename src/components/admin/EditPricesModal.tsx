@@ -25,8 +25,6 @@ export default function EditPricesModal({ isOpen, onClose, screening }: EditPric
 
   useEffect(() => {
     if (screening) {
-      console.log(screening)
-
       let initPrices = {}
       screening.seatPrices.map((seatPrice) => {
         initPrices = { ...initPrices, [seatPrice.categoryId]: seatPrice.price }
@@ -70,7 +68,7 @@ export default function EditPricesModal({ isOpen, onClose, screening }: EditPric
 
         <div className="space-y-4 mt-2">
           {categories.map((cat) => (
-            <div key={cat.id} className="flex items-center justify-between">
+            <div key={cat.id} className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded" style={{ backgroundColor: cat.color }} />
                 <span>{cat.name}</span>

@@ -1,8 +1,8 @@
 import api from './http'
 
 export const BookingAPI = {
-  create: async (screeningId: number, seatId: number) => {
-    const { data } = await api.post('/booking', { screeningId, seatId })
+  create: async (screeningId: number, seatId: number, promocode?: string) => {
+    const { data } = await api.post('/booking', { screeningId, seatId, promocode })
     return data
   },
 
